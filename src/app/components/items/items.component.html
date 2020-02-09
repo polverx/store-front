@@ -1,0 +1,53 @@
+<br>
+<h1>Lista de Items</h1>
+<br><br>
+<table  style="width:100%">
+  <tr style="text-align:center;">
+    <th>#</th>
+    <th>Id</th>
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th>Cantidad en stock:</th>
+    <th>Agregar 5 Items a Stock</th>
+    <th>Remover 1 item de Stock</th>
+    <th>Eliminar item</th>
+  </tr>
+  <tr *ngFor="let item of items;let i = index" style="text-align:center;">
+    <td>{{i}}</td>
+    <td>{{items[i].itemId}}</td>
+    <td>{{items[i].itemName}}</td>
+    <td style="text-align:left;">{{items[i].itemDescription}}</td>
+    <td>{{items[i].itemStockNumber}}</td>
+    <td> <button (click)="toAdd(items[i].itemId,5)" class="btn btn-outline-primary btn-block">Agregar</button> </td>
+    <td> <button (click)="toRemove(items[i].itemId,1)" class="btn btn-outline-primary btn-block">Remover</button> </td>
+    <td> <button (click)="deleteItem(items[i].itemId)" class="btn btn-outline-primary btn-block">Eliminar</button> </td>
+
+
+  </tr>
+</table>
+
+<br>
+<br>
+
+<button (click)=" show =!show " class="btn btn-outline-primary btn-block">
+  Agregar nuevo item.
+</button>
+<div *ngIf="show" style="width: 100%;">
+  <h2>Crear nuevo item.</h2>
+
+  <form #itemForm="ngForm" (ngSubmit)="onSubmit(itemForm)">
+    <label for="itemName">Nombre del producto:</label>
+    <input type="text" name="Nombre" #name="ngModel" [(ngModel)]="item.itemName">
+    <span *ngIf="name.touched && !name.valid">El nombre no es valido</span>
+    <br/>
+    <label for="itemDescription">Descripción del producto: </label>
+    <input type="text" name="Descripción" #description="ngModel" [(ngModel)]="item.itemDescription">
+    <span *ngIf="description.touched && !description.valid">La descripción no es valida</span>
+    <br/>
+    <label for="itemStockNumber">Cantidad inicial en stock: </label>
+    <input type="number" name="Cantidad en Stock" #stock="ngModel" [(ngModel)]="item.itemStockNumber" required/>
+    <span *ngIf="stock.touched && !stock.valid">El número no es válido.</span>
+    <input type="submit" value="Crear" [disabled]="!itemForm.form.valid"/>
+
+  </form>
+</div>
